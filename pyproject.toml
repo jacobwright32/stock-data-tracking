@@ -1,0 +1,33 @@
+[project]
+name = "stock-data-tracking"
+version = "0.1.0"
+description = "US stock market data tracking: 1-min OHLCV, option chains, and earnings"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.28",
+    "pydantic>=2.10",
+    "pydantic-settings>=2.7",
+    "pyarrow>=19.0",
+    "psycopg[binary]>=3.2",
+    "apscheduler>=3.11",
+    "yfinance>=0.2",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "pytz>=2024.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.25",
+    "pytest-httpx>=0.35",
+    "ruff>=0.9",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
