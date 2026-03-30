@@ -1,0 +1,62 @@
+symbols:
+  - AAPL
+  - MSFT
+  - GOOGL
+  - AMZN
+  - NVDA
+  - META
+  - TSLA
+  - BRK.B
+  - JPM
+  - V
+  - JNJ
+  - WMT
+  - PG
+  - MA
+  - UNH
+  - HD
+  - DIS
+  - BAC
+  - XOM
+  - PFE
+  # Extend this list to 500+ symbols as needed.
+  # Alternatively, load dynamically from S&P 500 constituents.
+
+polygon:
+  base_url: "https://api.polygon.io"
+  # api_key is loaded from .env (POLYGON_API_KEY), not stored here
+  rate_limit_free: 5          # calls per minute on free tier
+  rate_limit_paid: 0          # 0 means unlimited
+  timeout_seconds: 30
+
+storage:
+  data_dir: "./data"
+  parquet:
+    tick_dir: "tick"
+    options_dir: "options"
+    earnings_dir: "earnings"
+    compression: "snappy"
+
+schedules:
+  tick:
+    # Every minute during market hours (9:30 AM - 4:00 PM ET, Mon-Fri)
+    # APScheduler cron: fires every minute from 9-15 hour range
+    # The job itself checks for the 9:30 start and 16:00 end
+    minute: "*"
+    hour: "9-15"
+    day_of_week: "mon-fri"
+    misfire_grace_time: 30
+
+  options:
+    # Daily after market close: 4:30 PM ET, Mon-Fri
+    minute: "30"
+    hour: "16"
+    day_of_week: "mon-fri"
+    misfire_grace_time: 3600
+
+  earnings:
+    # Weekly check: Sunday 10:00 AM ET
+    minute: "0"
+    hour: "10"
+    day_of_week: "sun"
+    misfire_grace_time: 7200
